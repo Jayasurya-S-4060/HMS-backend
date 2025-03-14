@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Update with your frontend URL
+    origin: "https://hms-backend-mnsi.onrender.com", // Update with your frontend URL
     credentials: true, // Allows cookies to be sent
   })
 );
