@@ -79,8 +79,8 @@ const userLogin = async (req, res) => {
     // Store Token in HTTP-Only Cookie
     res.cookie("token", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: true,
+      sameSite: "None",
       maxAge: 60 * 60 * 1000, // 1 hour
     });
 
