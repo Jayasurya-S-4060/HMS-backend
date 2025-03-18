@@ -11,6 +11,8 @@ const userSchema = mongoose.Schema({
     required: true,
   },
   roomId: { type: mongoose.Schema.Types.ObjectId, ref: "Room", default: null },
+  resetPasswordToken: { type: String, default: null },
+  resetPasswordExpires: { type: Date, default: null },
 });
 
 const UserModel = mongoose.model("User", userSchema);

@@ -5,57 +5,6 @@ const RoomModel = require("../models/rooms");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 
-// const createUser = async (req, res) => {
-//   try {
-//     const { name, email, phone, role } = req.body;
-
-//     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-//     if (!emailRegex.test(email)) {
-//       return res.status(400).json({ message: "Invalid email format" });
-//     }
-
-//     const phoneRegex = /^[6-9]\d{9}$/;
-//     if (!phoneRegex.test(phone)) {
-//       return res.status(400).json({ message: "Invalid phone number" });
-//     }
-
-//     const existingUser = await UserModel.findOne({
-//       $or: [{ email }, { phone }],
-//     });
-//     if (existingUser) {
-//       return res
-//         .status(400)
-//         .json({ message: "Email or phone number already registered" });
-//     }
-
-//     const randomPassword = crypto.randomBytes(6).toString("hex");
-//     // const hashedPassword = await bcrypt.hash(randomPassword, 10);
-
-//     const newUser = new UserModel({
-//       name,
-//       email,
-//       password: randomPassword,
-//       // password: hashedPassword,
-//       phone,
-//       role,
-//     });
-
-//     await newUser.save();
-
-//     await sendEmail(
-//       email,
-//       "Your Hostel Account Details",
-//       `Hello ${name},\n\nYour hostel login password is: ${randomPassword}.\nPlease change your password after logging in.\n\nThank you!`
-//     );
-
-//     res.status(201).json({
-//       message: "User registered successfully. Password sent via email.",
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: "Server Error", error: error.message });
-//   }
-// };
-
 const getUsers = async (req, res) => {
   try {
     const { type } = req.query;

@@ -5,19 +5,20 @@ const {
   userLogin,
   checkAuth,
   userLogout,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/userAuth");
 const authenticateUser = require("../controllers/authenticateUser");
 
-const authRotues = express.Router();
+const authRoutes = express.Router();
 
-authRotues.post("/register", authenticateUser, userRegister);
-authRotues.post("/login", userLogin);
-authRotues.post("/logout", userLogout);
+authRoutes.post("/register", authenticateUser, userRegister);
+authRoutes.post("/login", userLogin);
+authRoutes.post("/logout", userLogout);
 
-authRotues.get("/check-auth", checkAuth);
+authRoutes.get("/check-auth", checkAuth);
 
-// router.post("/reset-password", auth, resetPassword);
-// router.post("/reset-password-request", auth, resetPasswordRequest);
-// router.get("/user", auth, getUserInfo);
+authRoutes.post("/forgot-password", forgotPassword);
+authRoutes.post("/reset-password/:token", resetPassword);
 
-module.exports = authRotues;
+module.exports = authRoutes;
