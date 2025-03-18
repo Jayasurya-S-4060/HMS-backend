@@ -97,7 +97,7 @@ const userLogin = async (req, res) => {
 
 const checkAuth = async (req, res) => {
   try {
-    const token = req.cookies?.token; // Get token from cookies
+    const token = req.cookies?.token;
 
     if (!token) {
       return res
@@ -177,7 +177,6 @@ const resetPassword = async (req, res) => {
   const { password } = req.body;
 
   try {
-    // Find the user (checking expiry separately)
     const user = await UserModel.findOne({
       resetPasswordExpires: { $gt: Date.now() }, // Ensure token is still valid
     });

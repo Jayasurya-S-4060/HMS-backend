@@ -41,9 +41,9 @@ const getMaintenanceRequests = async (req, res) => {
     }
 
     const requests = await MaintenanceRequestModel.find(query)
-      .populate("roomId", "roomNumber floor type") // Fetch room details
-      .populate("residentId", "name email phone") // Fetch resident details
-      .populate("assignedStaff", "name email phone"); // Fetch assigned staff details
+      .populate("roomId", "roomNumber floor type")
+      .populate("residentId", "name email phone")
+      .populate("assignedStaff", "name email phone");
 
     res.status(200).json(requests);
   } catch (err) {

@@ -9,7 +9,6 @@ const {
 
 const userRoutes = express.Router();
 
-// userRoutes.post("/register", auth, createUser);
 userRoutes.get("/", getUsers);
 userRoutes.get("/:id", getUserById);
 userRoutes.put("/:id", updateUserById);

@@ -29,7 +29,6 @@ const createPaymentIntent = async (req, res) => {
     const totalAmount =
       costItems.reduce((sum, item) => sum + item.amount, 0) * 100;
 
-    // Create Stripe Payment Intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalAmount,
       currency,
@@ -46,7 +45,7 @@ const createPaymentIntent = async (req, res) => {
     });
 
     roomHistory.paymentIntentId = paymentIntent.id;
-    roomHistory.paymentStatus = "pending"; // You can manage this status based on webhook later if needed
+    roomHistory.paymentStatus = "pending";
     await roomHistory.save();
 
     res.json({ clientSecret: paymentIntent.client_secret });
@@ -63,7 +62,6 @@ const getUserPayments = async (req, res) => {
       return res.status(400).json({ error: "User ID is required." });
     }
 
-    // Fetch room history records associated with the user
     const roomHistories = await RoomHistory.find({ residentId: userId });
 
     if (!roomHistories.length) {
@@ -72,21 +70,17 @@ const getUserPayments = async (req, res) => {
         .json({ error: "No room history found for this user." });
     }
 
-    // Get all room history IDs
     const roomHistoryIds = roomHistories.map((room) => room._id.toString());
 
-    // Retrieve all payment intents from Stripe (Fetching the latest 100 payments)
     const paymentIntents = await stripe.paymentIntents.list({ limit: 100 });
 
-    // Filter only payments that belong to this user
     const userPayments = paymentIntents.data.filter(
       (pi) =>
-        pi.metadata.residentId === userId || // Match residentId
+        pi.metadata.residentId === userId ||
         (pi.metadata.roomHistoryId &&
           roomHistoryIds.includes(pi.metadata.roomHistoryId))
     );
 
-    // If no payments found
     if (!userPayments.length) {
       return res
         .status(404)
@@ -96,7 +90,7 @@ const getUserPayments = async (req, res) => {
     // Format the response
     const formattedPayments = userPayments.map((payment) => ({
       id: payment.id,
-      amount: payment.amount / 100, // Convert cents to dollars
+      amount: payment.amount / 100,
       currency: payment.currency,
       status: payment.status,
       roomNumber: payment.metadata.roomNumber || "Unknown",
@@ -105,7 +99,7 @@ const getUserPayments = async (req, res) => {
         ? JSON.parse(payment.metadata.costBreakdown)
         : [],
       client_secret: payment.client_secret,
-      createdAt: payment.created, // Timestamp of payment creation
+      createdAt: payment.created,
     }));
 
     res.json(formattedPayments);
@@ -117,13 +111,11 @@ const getUserPayments = async (req, res) => {
 
 const listAllPayments = async (req, res) => {
   try {
-    // Fetch the latest 100 payments (Stripe's limit per request)
     const payments = await stripe.paymentIntents.list({ limit: 100 });
 
-    // Map relevant payment details
     const formattedPayments = payments.data.map((payment) => ({
       id: payment.id,
-      amount: payment.amount / 100, // Convert from cents to dollars
+      amount: payment.amount / 100,
       currency: payment.currency.toUpperCase(),
       status: payment.status,
       residentName: payment.metadata.residentName || "Unknown",

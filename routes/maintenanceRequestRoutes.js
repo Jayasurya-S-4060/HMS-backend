@@ -12,6 +12,4 @@ maintenanceRequestRoute.post("/", createMaintenanceRequest);
 maintenanceRequestRoute.get("/", getMaintenanceRequests);
 maintenanceRequestRoute.put("/:id", editMaintenanceRequest);
 
-// maintenanceRequestRoute.get("/:id", auth, createMaintenanceRequest);
-
 module.exports = maintenanceRequestRoute;

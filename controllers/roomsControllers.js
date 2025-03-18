@@ -84,7 +84,6 @@ const updateRoom = async (req, res) => {
       return res.status(404).json({ message: "Room not found" });
     }
 
-    // Handle Check-in
     if (status === "Occupied" && currentOccupant) {
       room.status = "Occupied";
       room.currentOccupant = {
@@ -94,17 +93,14 @@ const updateRoom = async (req, res) => {
         checkOutTime: null,
       };
 
-      // Update User model (Assign room)
       await UserModel.findByIdAndUpdate(currentOccupant.residentId, {
         roomId: room._id,
       });
     }
 
-    // Handle Check-out: Save to RoomHistory and Reset Room Data
     if (room.status === "Occupied" && status === "Available") {
       const checkOutTime = new Date();
 
-      // Save to RoomHistory Collection
       const roomHistory = new RoomHistoryModel({
         roomId: room._id,
         roomNumber: room.roomNumber,
@@ -116,7 +112,6 @@ const updateRoom = async (req, res) => {
 
       await roomHistory.save();
 
-      // Reset Room Data
       room.status = "Available";
       room.currentOccupant = {
         residentId: null,
@@ -125,7 +120,6 @@ const updateRoom = async (req, res) => {
         checkOutTime: null,
       };
 
-      // Update User model (Remove room assignment)
       await UserModel.findByIdAndUpdate(room.currentOccupant.residentId, {
         roomId: null,
       });

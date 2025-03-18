@@ -1,6 +1,5 @@
 const FinancialRecord = require("../models/financialReport.js");
 
-// Add a new financial record
 const addFinancialRecord = async (req, res) => {
   try {
     const { type, amount, date, description, occupancyRate } = req.body;
@@ -22,7 +21,6 @@ const addFinancialRecord = async (req, res) => {
   }
 };
 
-// Get all financial records
 const getFinancialRecords = async (req, res) => {
   try {
     const records = await FinancialRecord.find();
@@ -32,7 +30,6 @@ const getFinancialRecords = async (req, res) => {
   }
 };
 
-// Update an existing financial record
 const updateFinancialRecord = async (req, res) => {
   try {
     const { id } = req.params;
@@ -56,7 +53,6 @@ const updateFinancialRecord = async (req, res) => {
   }
 };
 
-// Generate financial report (aggregated revenue, expenses, occupancy rate)
 const generateFinancialReport = async (req, res) => {
   try {
     const records = await FinancialRecord.find();

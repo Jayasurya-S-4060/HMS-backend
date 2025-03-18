@@ -1,10 +1,6 @@
 const UserModel = require("../models/users");
 const RoomModel = require("../models/rooms");
 
-// const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
-const sendEmail = require("../utils/sendEmail");
-
 const getUsers = async (req, res) => {
   try {
     const { type } = req.query;
